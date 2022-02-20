@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "../ui/formButton";
 import styles from "./dashboard.module.css";
+import { UserContext } from "../../store/user-context";
 
 const Dashboard = () => {
+    const LogCtx = useContext(UserContext);
     return <div className={styles.dashboardConatainer}>
-    <p className={styles.defaulText}>Populate this page by Login. 😊</p>
-    <p className={styles.defaulText}>Hi, User!</p>
+        {!LogCtx.isLoggedIn && <p className={styles.defaulText}>Populate this page by Login. 😊</p>}
+        {LogCtx.isLoggedIn && <p className={styles.defaulText}>Hi, {LogCtx.userName}!</p>}
+        {LogCtx.userType === "ADMIN" && <Button> Greeho Chart</Button>}
 
-    <Button> Greeho Chart</Button>
     </div>
 };
 

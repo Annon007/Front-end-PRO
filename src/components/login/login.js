@@ -1,20 +1,45 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import styles from "./login.module.css";
 import Modal from "../ui/modal";
 import Button from "../ui/formButton";
+import Loading from "../ui/loading";
+import { Error_Toast, Success_Toast } from "../ui/toast/toast";
+import { UserContext } from "../../store/user-context";
 
 const Login = props => {
-    console.log("Login Running")
+    const [isLoading, setIsLoading] = useState(false);
+    const LogCtx = useContext(UserContext);
+
+    const handleLoginForm = async e => {
+        e.preventDefault();
+        setIsLoading(true);
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+
+        const dataRes = await props.onData(data);
+        if (dataRes.status === 200) {
+            setIsLoading(false);
+            localStorage.setItem("GreehoToken", dataRes.token)
+            Success_Toast("Login Successfully!");
+            LogCtx.setIsLoggedIn();
+            LogCtx.setUser(dataRes.data);
+            props.onShow();
+        } else {
+            setIsLoading(false);
+            dataRes.error.map(er => Error_Toast(Object.values(er)))
+        }
+    }
     return (
         <Modal onClose={props.onShow}>
             <h1>Login</h1>
-            <form className={styles.formInput}>
+            {isLoading && <Loading />}
+            {!isLoading && <form onSubmit={handleLoginForm} className={styles.formInput}>
                 <p>Use Name</p>
-                <input type="text" required/>
+                <input type="text" name="username" required />
                 <p>Password</p>
-                <input type="password" required/>
+                <input type="password" name="password" required />
                 <Button type="submit">Add User</Button>
-            </form>
+            </form>}
         </Modal>
     )
 };
