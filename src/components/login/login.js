@@ -10,9 +10,9 @@ const Login = props => {
             <h1>Login</h1>
             <form className={styles.formInput}>
                 <p>Use Name</p>
-                <input/>
+                <input type="text" required/>
                 <p>Password</p>
-                <input/>
+                <input type="password" required/>
                 <Button type="submit">Add User</Button>
             </form>
         </Modal>
