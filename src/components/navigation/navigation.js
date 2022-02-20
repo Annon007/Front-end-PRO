@@ -21,10 +21,15 @@ const Navigation = props => {
     };
     const getSignUpData = async data =>{
         const res = await SIGN_UP(data)
-        console.log(res);
-    }
+        console.log(res)
+        return res
+    };
+
+
+
+
     return <div className={styles.navConatainer}>
-        {showLogIn && <Login onShow={handlLogInModal}/>}
+        {showLogIn && <Login onShow={handlLogInModal} />}
         {showSignUp && <SignUp onShow={handlSignUpModal} onData={getSignUpData}/>}
         <p className={styles.navLinks} onClick={handlLogInModal} >Login</p>
         <p className={styles.navLinks} onClick={handlSignUpModal}>Sign Up</p>

@@ -13,7 +13,9 @@ export const SIGN_UP = async data =>{
         const promice = await sendReq;
         if(!promice.ok){
             const res =  await promice.json();
+            console.log(res)
             return {
+                status : res.status,
                 error : res.data.errors
             }
             // const errRes = await promice.json();

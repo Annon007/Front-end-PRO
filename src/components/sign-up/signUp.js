@@ -1,19 +1,34 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "./signUp.module.css";
 import Modal from "../ui/modal";
 import Button from "../ui/formButton";
+import Loading from "../ui/loading";
+import  ErrorMessage from "../ui/error-message/errorMessage";
 
 const SignUp= props => {
-    const handleFormData = e => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [errMsg, setErrMsg] = useState();
+    
+    const handleFormData = async e => {
+        setIsLoading(true);
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData);
         
-        props.onData(data)
+        const dataRes = await props.onData(data);
+        if(dataRes.status === 200) {
+            setIsLoading(false);
+        } else {
+            setIsLoading(false);
+            setErrMsg(dataRes.error);
+        }
     }
-    return <Modal onClose={props.onShow}>
+    return <>
+    {errMsg && <ErrorMessage />}
+    <Modal onClose={props.onShow}>
         <h1>Sign Up</h1>
-        <form className={styles.formInput} onSubmit={handleFormData}>
+        {isLoading && <Loading/>}
+        {!isLoading && <form className={styles.formInput} onSubmit={handleFormData}>
             <p>UseR Name</p>
             <input type="text" name="username" required/>
             <p>Email</p>
@@ -25,8 +40,10 @@ const SignUp= props => {
             <p>Confirm Password</p>
             <input type="password" name="confirmPassword" required/>
             <Button type="submit">Sign Up</Button>
-        </form>
+        </form>}
+        
     </Modal>
+    </>
 };
 
 export default SignUp;

@@ -1,0 +1,16 @@
+.errorConatiner{
+    position: absolute;
+   width: 10rem;
+   height: 10rem;
+   top: 0;
+   right: 0;
+    border: #f90706;
+    background-color: #FA3938;
+    font-size: 1.6rem;
+    color:#222 ;
+    animation: travell 0.5s forwards;
+    z-index: 10000;
+}
+/* @keyframes travell {
+    0%{}
+} */
