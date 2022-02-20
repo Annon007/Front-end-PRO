@@ -1,10 +1,14 @@
 
-
+import Dashboard from "./components/dashboard/dashBoard";
+import Login from "./components/login/login";
+import Navigation from "./components/navigation/navigation";
 function App() {
   return (
-    <div>
-      HI
-    </div>
+    <>
+      <Login/>
+      <Navigation/>
+      <Dashboard/>
+    </>
   );
 }
 

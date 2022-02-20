@@ -1,0 +1,20 @@
+.button {
+    font-size: 1.6rem;
+    border: 1px solid #435374;
+    background: #303c54;
+    color: white;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+  }
+  
+  .button:hover,
+  .button:active {
+    background: #435374;
+    border-color: #435374;
+  }
+  
+  .button:focus {
+    outline: none;
+  }

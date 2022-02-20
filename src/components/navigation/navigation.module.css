@@ -1,0 +1,19 @@
+.navConatainer{
+    width: 100%;
+    height: 7rem;
+    background-color: #303c54;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2rem;
+    padding: 0 3rem;
+}
+.navConatainer p{
+    font-size: 1.8rem;
+    color: #fff;
+    background-color: #435374;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+
+}
