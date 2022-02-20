@@ -3,9 +3,10 @@ import styles from "./login.module.css";
 import Modal from "../ui/modal";
 import Button from "../ui/formButton";
 
-const Login = () => {
+const Login = props => {
+    console.log("Login Running")
     return (
-        <Modal>
+        <Modal onClose={props.onShow}>
             <h1>Login</h1>
             <form className={styles.formInput}>
                 <p>Use Name</p>

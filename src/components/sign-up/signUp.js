@@ -4,7 +4,8 @@ import Modal from "../ui/modal";
 import Button from "../ui/formButton";
 
 const SignUp= props => {
-    return <Modal>
+    return <Modal onClose={props.onShow}>
+        <h1>Sign Up</h1>
         <form className={styles.formInput}>
             <p>UseR Name</p>
             <input type="text" required/>
@@ -16,7 +17,7 @@ const SignUp= props => {
             <input type="password" required/>
             <p>Confirm Password</p>
             <input type="password" required/>
-            <Button type="submit">Signup</Button>
+            <Button type="submit">Sign Up</Button>
         </form>
     </Modal>
 };
