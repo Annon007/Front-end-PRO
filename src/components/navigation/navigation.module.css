@@ -7,8 +7,9 @@
     justify-content: flex-end;
     gap: 2rem;
     padding: 0 3rem;
+    position: relative;
 }
-.navConatainer p{
+.navLinks{
     font-size: 1.8rem;
     color: #fff;
     background-color: #435374;
@@ -16,4 +17,36 @@
     border-radius: 1rem;
     cursor: pointer;
 
+}
+.userProfileImage{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    object-fit: contain;
+    box-shadow: 0 0 0 3px #fff ;
+    cursor: pointer;
+}
+.userProfileImage:hover{
+    animation:bounceOut .4s linear;
+}
+
+@keyframes bounceOut {
+    0%{ box-shadow: 0 0 0 2px #fff; opacity:1;}
+    25%{ box-shadow: 0 0 0 1px #fff; opacity:1;}
+    50%{ box-shadow: 0 0 0 3px #fff; opacity:1; }
+    75%{ box-shadow: 0 0 0 2px #fff; opacity:1;}
+    100%{ box-shadow: 0 0 0 2px #fff; opacity:1;}
+}
+.profileCard{
+    position: absolute;
+    top: 110%;
+    visibility: hidden;
+    opacity: 0;
+    /* pointer-events: none; */
+    transition: all 0.5s 0.2s;
+}
+.userProfileImage:hover~.profileCard,.profileCard:hover {
+    visibility: visible;
+    opacity: 1;
+    pointer-events:visible;
 }
