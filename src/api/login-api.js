@@ -13,9 +13,10 @@ export const LOGIN_API = async data => {
         const promice = await serdReq;
         if (!promice.ok) {
             const res = await promice.json();
+            console.log(res);
             return {
                 status: res.status,
-                error: res.data.errors
+                error: res.message
             }
         }
         const res = await promice.json();

@@ -8,6 +8,8 @@ import { UserContext } from "../../store/user-context";
 const UserCard = () => {
     const LogCtx = useContext(UserContext);
     const handelLogOut = () => {
+        localStorage.removeItem("GreehoToken");
+        localStorage.removeItem("GreehoUser");
         LogCtx.setIsLoggedIn();
     }
     return <Card>

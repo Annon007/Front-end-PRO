@@ -17,16 +17,21 @@ const Login = props => {
         const data = Object.fromEntries(formData);
 
         const dataRes = await props.onData(data);
+        const UserInfo = dataRes.data;
+        // console.log(JSON.parse(test))
         if (dataRes.status === 200) {
             setIsLoading(false);
             localStorage.setItem("GreehoToken", dataRes.token)
+            console.log(dataRes.data, "Testing")
+            localStorage.setItem("GreehoUser", JSON.stringify(UserInfo))
             Success_Toast("Login Successfully!");
             LogCtx.setIsLoggedIn();
             LogCtx.setUser(dataRes.data);
             props.onShow();
         } else {
             setIsLoading(false);
-            dataRes.error.map(er => Error_Toast(Object.values(er)))
+
+            Error_Toast(dataRes.error)
         }
     }
     return (

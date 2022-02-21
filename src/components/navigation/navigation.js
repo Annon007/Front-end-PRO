@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styles from "./navigation.module.css";
 import DefaultImg from "../../icons/images/defaultImg.png"
 
@@ -13,8 +13,18 @@ import { LOGIN_API } from "../../api/login-api";
 const Navigation = props => {
   const [showLogIn, setShowLogIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
-
   const LogCtx = useContext(UserContext);
+  const localData = localStorage.getItem("GreehoUser");
+  const parseData = JSON.parse(localData);
+  useEffect(() => {
+
+    if (localStorage.getItem("GreehoToken")) {
+      LogCtx.setIsLoggedIn();
+      LogCtx.setUser(parseData);
+
+    }
+  }, [])
+
   const handlLogInModal = () => {
     console.log("Calling")
     setShowLogIn(!showLogIn)
