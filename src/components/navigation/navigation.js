@@ -56,10 +56,10 @@ const Navigation = props => {
     {LogCtx.isLoggedIn && <img src={DefaultImg} className={styles.userProfileImage} alt="user" />}
 
 
-
-    <div className={styles.profileCard}>
+    {LogCtx.isLoggedIn && <div className={styles.profileCard}>
       <UserCard />
-    </div>
+    </div>}
+
     {/* {User} */}
   </div>
 };
