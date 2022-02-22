@@ -3,14 +3,17 @@ import styles from "./userProfile.module.css";
 import Button from "../ui/formButton"
 import DefaultImg from "../../icons/images/defaultImg.png";
 import { UPLOAD_IMAGE, GET_IMAGE } from "../../api/uploadImage-api";
+import { USER_DETAILS } from "../../api/user-details-api";
 import Loading from "../ui/loading";
 import { Error_Toast, Success_Toast } from "../ui/toast/toast";
 import { UserContext } from "../../store/user-context";
+import { Configuration } from "../../configuration/configuration";
 
 
 const UserProfile = props => {
     // const [fileName, setFile] = useState();
     const [image, setImage] = useState(DefaultImg);
+    const [imageFile, setImageFile] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [formValidation, setFormValidation] = useState(false);
 
@@ -66,6 +69,7 @@ const UserProfile = props => {
             Error_Toast(res.error);
         } else {
             setIsLoading(false);
+            setImageFile(res.fileName);
             Success_Toast(res?.msg);
         }
         const profile = await GET_IMAGE(res.fileName);
@@ -78,34 +82,51 @@ const UserProfile = props => {
         }
     };
 
-    const handelDetailFrom = e => {
+    const handelDetailFrom = async e => {
         e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        const finalData = {...data, weight:+data.weight, height:+data.height, profilePicture:imageFile};
+        const res = await USER_DETAILS(finalData);
+        console.log(res, "UPDATING INFOS");
+        if(res.status === 200){
+            LogCtx.setUser(res.data.account);
+            Success_Toast(res.msg);
+        } 
+        if(res.expireToken || res.status === 400 || res.status === 500) {
+            // LogCtx.setIsLoggedIn();
+            // localStorage.removeItem("GreehoToken");
+            // localStorage.removeItem("GreehoUser");
+            Error_Toast(res.error);
+        }
+        console.log(finalData);
     }
 
     return <div className={styles.profileContainer}>
         <div className={styles.profileContent}>
             <div className={styles.profileImageContainer}>
                 {isLoading && <Loading />}
-                {!isLoading && <img src={image} className={styles.profileImage} alt="profile" />}
+                {!isLoading && <img src={LogCtx.userDetails.profilePicture?`https://exam.greeho.com/api/files/${LogCtx.userDetails.profilePicture}` : image} className={styles.profileImage} alt="profile" />}
                 <input type="file" onChange={handleImage} className={styles.fileInput} />
             </div>
         </div>
         <form onSubmit={handelDetailFrom} className={styles.profileForm}>
             <p>Email</p>
-            <input type="text" name="email" onChange={handelEMail} defaultValue={LogCtx.userDetails.email} required />
+            <input type="email" name="email" onChange={handelEMail} defaultValue={LogCtx.userDetails.email} required />
             <p>Mobile</p>
             <input type="text" name="mobile" onChange={handelMobile} defaultValue={LogCtx.userDetails.mobile} required />
-            <p>Weight</p>
-            <input type="number" name="weight" onChange={handelWeight} defaultValue={LogCtx.userDetails.weight} required />
-            <p>Height</p>
-            <input type="number" name="height" onChange={handelHeight} defaultValue={LogCtx.userDetails.height} required />
+            <p>Marital Status</p>
+            <input type="text" name="maritalStatus" onChange={handelMaritalStatus} defaultValue={LogCtx.userDetails.maritalStatus} required />
             <p>Address</p>
             <input type="text" name="address" onChange={handelAddress} defaultValue={LogCtx.userDetails.address} required />
             <p>University</p>
             <input type="text" name="university" onChange={handelUniversity} defaultValue={LogCtx.userDetails.university} required />
-            <p>Marital Status</p>
-            <input type="text" name="maritalStatus" onChange={handelMaritalStatus} defaultValue={LogCtx.userDetails.maritalStatus} required />
-            <Button type="submit" disabled={!formValidation}>Submit</Button>
+            <p>Weight</p>
+            <input type="number" name="weight" onChange={handelWeight} defaultValue={LogCtx.userDetails.weight} required />
+            <p>Height</p>
+            <input type="number" name="height" onChange={handelHeight} defaultValue={LogCtx.userDetails.height} required />
+            <Button type="submit" >Submit</Button>
+            {/* disabled={!formValidation} */}
         </form>
 
     </div>

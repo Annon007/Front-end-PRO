@@ -12,7 +12,7 @@ const Dashboard = () => {
         {!LogCtx.isLoggedIn && <p className={styles.defaulText}>Populate this page by Login. 😊</p>}
         {LogCtx.isLoggedIn && !LogCtx.showProfile && <p className={styles.defaulText}>Hi, {LogCtx.userName}!</p>}
         {LogCtx.userType === "ADMIN" && !LogCtx.showProfile && <Button> Greeho Chart</Button>}
-        {LogCtx.showProfile && <UserProfile />}
+        {LogCtx.showProfile && LogCtx.isLoggedIn && <UserProfile />}
 
 
     </div>
