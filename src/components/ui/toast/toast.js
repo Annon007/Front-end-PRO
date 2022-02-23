@@ -10,8 +10,7 @@ export const Success_Toast = (msg) => {
             fontSize: "1.5rem",
             color: "#33FF75",
             fontWeight: "bold",
-
-        }
+        }, autoClose: 4000
     })
 };
 export const Error_Toast = (msg) => {
@@ -22,7 +21,6 @@ export const Error_Toast = (msg) => {
             fontSize: "1.5rem",
             color: "#FB373F",
             fontWeight: "bold",
-
-        }
+        }, autoClose: 4000
     })
 }
