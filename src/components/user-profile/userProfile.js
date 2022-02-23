@@ -4,6 +4,7 @@ import Button from "../ui/formButton"
 import DefaultImg from "../../icons/images/defaultImg.png";
 import { UPLOAD_IMAGE, GET_IMAGE } from "../../api/uploadImage-api";
 import { USER_DETAILS } from "../../api/user-details-api";
+import { UPDATE_DETAILS } from "../../api/update-details-api";
 import Loading from "../ui/loading";
 import { Error_Toast, Success_Toast } from "../ui/toast/toast";
 import { UserContext } from "../../store/user-context";
@@ -86,14 +87,14 @@ const UserProfile = props => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData);
-        const finalData = {...data, weight:+data.weight, height:+data.height, profilePicture:imageFile};
-        const res = await USER_DETAILS(finalData);
+        const finalData = { ...data, weight: +data.weight, height: +data.height, profilePicture: imageFile };
+        const res = await UPDATE_DETAILS(finalData);
         console.log(res, "UPDATING INFOS");
-        if(res.status === 200){
-            LogCtx.setUser(res.data.account);
+        if (res.status === 200) {
+            LogCtx.setUser(res.data);
             Success_Toast(res.msg);
-        } 
-        if(res.expireToken || res.status === 400 || res.status === 500) {
+        }
+        if (res.expireToken || res.status === 400 || res.status === 500) {
             // LogCtx.setIsLoggedIn();
             // localStorage.removeItem("GreehoToken");
             // localStorage.removeItem("GreehoUser");
@@ -106,7 +107,7 @@ const UserProfile = props => {
         <div className={styles.profileContent}>
             <div className={styles.profileImageContainer}>
                 {isLoading && <Loading />}
-                {!isLoading && <img src={LogCtx.userDetails.profilePicture?`https://exam.greeho.com/api/files/${LogCtx.userDetails.profilePicture}` : image} className={styles.profileImage} alt="profile" />}
+                {!isLoading && <img src={LogCtx.userDetails.profilePicture ? `https://exam.greeho.com/api/files/${LogCtx.userDetails.profilePicture}` : image} className={styles.profileImage} alt="profile" />}
                 <input type="file" onChange={handleImage} className={styles.fileInput} />
             </div>
         </div>

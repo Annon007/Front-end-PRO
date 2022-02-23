@@ -3,7 +3,7 @@ import { UserContext } from "./user-context";
 
 const userReducer = (state, action) => {
     if (action.type === "CHECK_USER") {
-        return { userType: action.value.userType, userName: action.value.username, user: action.value }
+        return { userType: action.value?.userType, userName: action.value.username, user: action.value }
     }
     return { userType: "", userName: "", user: undefined }
 }

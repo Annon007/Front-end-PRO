@@ -1,15 +1,16 @@
 import { Configuration } from "../configuration/configuration";
 
-export const USER_DETAILS = async (data = false) => {
+export const UPDATE_DETAILS = async (data) => {
     try {
         console.log(data, "FROM API FUNCTION");
         const sendReq = fetch(Configuration.USER_DETAILS, {
-            method: data ? "PUT" : "GET",
+            method: "PUT",
             headers: {
+                'Content-Type': 'application/json',
                 "Authorization": localStorage.getItem("GreehoToken"),
                 'x-api-key': Configuration.X_API_KEY,
             },
-            body: data ? JSON.stringify(data) : null
+            body: JSON.stringify(data),
         });
         const promice = await sendReq;
         if (!promice.ok) {
