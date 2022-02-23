@@ -87,23 +87,24 @@ const UserProfile = props => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData);
-        const finalData = { ...data, weight: +data.weight, height: +data.height, profilePicture: imageFile };
+        const finalData = { ...data, weight: +data.weight, height: +data.height, profilePicture: imageFile.length > 0 ? imageFile : LogCtx.userDetails.profilePicture };
         const res = await UPDATE_DETAILS(finalData);
         console.log(res, "UPDATING INFOS");
         if (res.status === 200) {
             LogCtx.setUser(res.data);
             Success_Toast(res.msg);
         }
-        if (res.expireToken || res.status === 400 || res.status === 500) {
-            // LogCtx.setIsLoggedIn();
-            // localStorage.removeItem("GreehoToken");
-            // localStorage.removeItem("GreehoUser");
+        if (res.expireToken) {
+            LogCtx.setIsLoggedIn();
+            localStorage.removeItem("GreehoToken");
+            localStorage.removeItem("GreehoUser");
             Error_Toast(res.error);
         }
         console.log(finalData);
     }
 
     return <div className={styles.profileContainer}>
+        <p onClick={() => { LogCtx.setShowProfile(false); }}>Back</p>
         <div className={styles.profileContent}>
             <div className={styles.profileImageContainer}>
                 {isLoading && <Loading />}

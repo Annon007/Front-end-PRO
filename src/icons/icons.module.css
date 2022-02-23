@@ -1,7 +1,14 @@
 .userIcon {
-    width: 2rem;
-    height: 2rem;
-    fill: #fff;
-    stroke: #435374;
-    cursor: pointer;
-  }
+  width: 2rem;
+  height: 2rem;
+  fill: #fff;
+  stroke: #435374;
+  cursor: pointer;
+}
+.viewIcon {
+  width: 2rem;
+  height: 2rem;
+  /* fill: #fff; */
+  stroke: #435374;
+  cursor: pointer;
+}

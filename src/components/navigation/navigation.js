@@ -53,7 +53,7 @@ const Navigation = props => {
     {!LogCtx.isLoggedIn && <p className={styles.navLinks} onClick={handlLogInModal} >Login</p>}
     {!LogCtx.isLoggedIn && <p className={styles.navLinks} onClick={handlSignUpModal}>Sign Up</p>}
 
-    {LogCtx.isLoggedIn && <img src={DefaultImg} className={styles.userProfileImage} alt="user" />}
+    {LogCtx.isLoggedIn && <img src={LogCtx.userDetails?.profilePicture ? `https://exam.greeho.com/api/files/${LogCtx.userDetails.profilePicture}` : DefaultImg} className={styles.userProfileImage} alt="user" />}
 
 
     {LogCtx.isLoggedIn && <div className={styles.profileCard}>

@@ -25,7 +25,7 @@ const Login = props => {
             console.log(dataRes.data, "Testing")
             localStorage.setItem("GreehoUser", JSON.stringify(UserInfo))
             Success_Toast("Login Successfully!");
-            LogCtx.setIsLoggedIn();
+            LogCtx.setIsLoggedIn(false);
             LogCtx.setUser(dataRes.data);
             props.onShow();
         } else {
