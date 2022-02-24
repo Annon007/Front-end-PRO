@@ -42,3 +42,23 @@
   display: flex;
   justify-content: center;
 }
+.select{
+  font-size: 1.6rem;
+  font-weight: 600;
+  display: flex;
+  gap: 1rem;
+
+}
+.select select {
+  border: none;
+  outline: none;
+  padding: 0.5rem 1rem;
+  background-color: #303c54;
+  color: #fff;
+}
+.select select option{
+  padding: 0.5rem 1rem;
+  background-color: #303c54;
+  color: #fff;
+  font-weight: 600;
+}

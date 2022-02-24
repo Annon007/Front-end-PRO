@@ -40,44 +40,52 @@ const AllUsers = props => {
     const [users, setUsers] = useState([]);
     const [showUserModal, setShowUserModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [order, setOrder] = useState("desc");
+    const [query, setQuery] = useState("north");
     const LogCtx = useContext(UserContext);
 
     useEffect(() => {
-        const getUsers = async () => {
-            try {
+       const timer = setTimeout(()=> { const getUsers = async () => {
+        try {
 
-                const sendReq = fetch(`https://exam.greeho.com/api/users?query=north&offset=${Configuration.OFFSET}&currentPage=${page}&sortBy=userId&orderBy=desc`, {
-                    method: "GET",
-                    headers: {
-                        'x-api-key': Configuration.X_API_KEY,
-                    }
-                });
-                const promise = await sendReq;
-                if (!promise.ok) {
-                    setIsLoading(false)
-                    const res = await promise.json();
-                    console.log(res);
-                    if (res.status === 401) {
-                        LogCtx.setIsLoggedIn();
-                        LogCtx.setUser();
-                        LogCtx.setShowProfile(false);
-                    }
-                    Error_Toast(res.message);
-
+            const sendReq = fetch(`https://exam.greeho.com/api/users?query=${query}&offset=${Configuration.OFFSET - page}&currentPage=${page}&sortBy=userId&orderBy=${order}`, {
+                method: "GET",
+                headers: {
+                    'x-api-key': Configuration.X_API_KEY,
                 }
-                const res = await promise.json();
-                Success_Toast(res.message);
-                setUsers(res.data.users);
+            });
+            const promise = await sendReq;
+            if (!promise.ok) {
                 setIsLoading(false)
-
-            } catch (err) {
+                const res = await promise.json();
+                console.log(res);
+                if (res.status === 401) {
+                    LogCtx.setIsLoggedIn();
+                    LogCtx.setUser();
+                    LogCtx.setShowProfile(false);
+                }
+                if(res.status === 500) {
+                    getUsers();
+                }
+                Error_Toast(res.message);
 
             }
-        };
-        getUsers();
+            const res = await promise.json();
+            Success_Toast(res.message);
+            setUsers(res.data.users);
+            setIsLoading(false)
 
+        } catch (err) {
 
-    }, []);
+        }
+    };
+    getUsers();
+}, 300)
+
+    return () => {
+     clearTimeout(timer);   
+    }
+    }, [query]);
 
     const numberOfPages = Math.ceil(users.length / 10);
     console.log(numberOfPages, "PAGES");
@@ -95,10 +103,26 @@ const AllUsers = props => {
     const showDeatils = () => {
         setShowUserModal(!showUserModal);
     }
+    const handelQuery = e => {
+        setQuery(e.target.value)
+    }
+    const handelOreder = () => {
+        setOrder( "asc")
+    }
     return <>
         {showUserModal && <Users onClose={showDeatils} />}
 
-
+        <div className={styles.select}>
+        <p>Search by Query :</p>
+        {/* <select onChange={handelQuery}>
+            <option selected value="north">North</option>
+            <option value="south">South</option>
+            <option value="east">East</option>
+            <option value="west">West</option>
+        </select> */}
+        <input type="text" onChange={handelQuery}/>
+        <p onClick={handelOreder}>Order By</p>
+        </div>
         {isLoading && <Loading />}
         {!isLoading && <div> <table className={styles.contentTable}>
             <thead>
@@ -107,7 +131,7 @@ const AllUsers = props => {
                     <th>Number</th>
                     <th>Name</th>
                     <th>User Type</th>
-                    <th>Address</th>
+                    <th>University</th>
                     <th></th>
                 </tr>
             </thead>
