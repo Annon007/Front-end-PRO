@@ -111,7 +111,7 @@ const UserProfile = props => {
         <div className={styles.profileContent}>
             <div className={styles.profileImageContainer}>
                 {isLoading && <Loading />}
-                {!isLoading && <img src={`https://exam.greeho.com/api/files/${LogCtx.userDetails.profilePicture}`} className={styles.profileImage} alt="profile" />}
+                {!isLoading && <img src={LogCtx?.userDetails?.profilePicture?.length > 0?`https://exam.greeho.com/api/files/${LogCtx.userDetails.profilePicture}`:DefaultImg} className={styles.profileImage} alt="profile" />}
                 <input type="file" onChange={handleImage} className={styles.fileInput} />
             </div>
         </div>
