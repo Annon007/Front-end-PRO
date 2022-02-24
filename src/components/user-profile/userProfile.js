@@ -14,7 +14,7 @@ import { Configuration } from "../../configuration/configuration";
 const UserProfile = props => {
     // const [fileName, setFile] = useState();
     const [image, setImage] = useState(DefaultImg);
-    const [imageFile, setImageFile] = useState("");
+    // const [imageFile, setImageFile] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [formValidation, setFormValidation] = useState(false);
 
@@ -70,7 +70,8 @@ const UserProfile = props => {
             Error_Toast(res.error);
         } else {
             setIsLoading(false);
-            setImageFile(res.fileName);
+            // setImageFile(res.fileName);
+            LogCtx.userDetails.profilePicture = res.fileName;
             Success_Toast(res?.msg);
         }
         const profile = await GET_IMAGE(res.fileName);
@@ -78,7 +79,9 @@ const UserProfile = props => {
             setIsLoading(false);
             Error_Toast(profile.error);
         } else {
-            setIsLoading(false);
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 5000)
             setImage(profile);
         }
     };
@@ -87,7 +90,7 @@ const UserProfile = props => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData);
-        const finalData = { ...data, weight: +data.weight, height: +data.height, profilePicture: imageFile.length > 0 ? imageFile : LogCtx.userDetails.profilePicture };
+        const finalData = { ...data, weight: +data.weight, height: +data.height, profilePicture: LogCtx.userDetails.profilePicture };
         const res = await UPDATE_DETAILS(finalData);
         console.log(res, "UPDATING INFOS");
         if (res.status === 200) {
@@ -108,7 +111,7 @@ const UserProfile = props => {
         <div className={styles.profileContent}>
             <div className={styles.profileImageContainer}>
                 {isLoading && <Loading />}
-                {!isLoading && <img src={LogCtx.userDetails.profilePicture ? `https://exam.greeho.com/api/files/${LogCtx.userDetails.profilePicture}` : image} className={styles.profileImage} alt="profile" />}
+                {!isLoading && <img src={`https://exam.greeho.com/api/files/${LogCtx.userDetails.profilePicture}`} className={styles.profileImage} alt="profile" />}
                 <input type="file" onChange={handleImage} className={styles.fileInput} />
             </div>
         </div>
